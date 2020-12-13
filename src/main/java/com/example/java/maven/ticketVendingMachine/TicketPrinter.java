@@ -1,10 +1,13 @@
 package com.example.java.maven.ticketVendingMachine;
 
 public class TicketPrinter {
-    private final int paperContainerState;
+    private int paperContainerState;
+    private final static String PRINT_TICKETS = "Here are your tickets:";
+    private final MessagePrinter messagePrinter;
 
-    public TicketPrinter(int paperContainerState) {
+    public TicketPrinter(int paperContainerState, MessagePrinter messagePrinter) {
         this.paperContainerState = paperContainerState;
+        this.messagePrinter = messagePrinter;
     }
 
     public int getPaperContainerState() {
@@ -20,4 +23,11 @@ public class TicketPrinter {
         }
     }
 
+    public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
+        messagePrinter.printMessage(PRINT_TICKETS);
+        for (Ticket ticket : ticketStorage.getTicketStorage()) {
+            messagePrinter.printMessage(ticket.toString());
+            paperContainerState -= 1;
+        }
+    }
 }
