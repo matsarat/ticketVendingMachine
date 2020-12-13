@@ -9,6 +9,10 @@ public class TicketStorage {
         this.ticketStorage = ticketStorage;
     }
 
+    public List<Ticket> getTicketStorage() {
+        return ticketStorage;
+    }
+
     public void addTicketToStorage(Ticket ticket) {
         ticketStorage.add(ticket);
     }
@@ -20,6 +24,5 @@ public class TicketStorage {
         }
         return valueOfTicketsInStorage;
     }
-
-
+    
 }
