@@ -6,4 +6,8 @@ public class MessagePrinter {
         System.out.println(messageToPrint);
     }
 
+    public void printError(String errorToPrint){
+        System.err.println(errorToPrint);
+    }
+
 }
