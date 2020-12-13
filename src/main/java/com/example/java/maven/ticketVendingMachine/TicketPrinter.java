@@ -23,6 +23,13 @@ public class TicketPrinter {
         }
     }
 
+    public boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
+        if (paperContainerState >= ticketStorage.getTicketStorage().size()) {
+            return true;
+        }
+        else return false;
+    }
+
     public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
         messagePrinter.printMessage(PRINT_TICKETS);
         for (Ticket ticket : ticketStorage.getTicketStorage()) {
