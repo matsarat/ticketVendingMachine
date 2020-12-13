@@ -13,5 +13,13 @@ public class TicketStorage {
         ticketStorage.add(ticket);
     }
 
+    public int getValueOfTicketsInStorage() {
+        int valueOfTicketsInStorage = 0;
+        for (Ticket ticket : ticketStorage) {
+            valueOfTicketsInStorage += ticket.getValue();
+        }
+        return valueOfTicketsInStorage;
+    }
+
 
 }
