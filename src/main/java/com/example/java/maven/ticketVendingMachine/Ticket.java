@@ -13,4 +13,12 @@ public enum Ticket {
         this.value = value;
         this.symbol = symbol;
     }
+
+    public float getValue() {
+        return value;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
 }
