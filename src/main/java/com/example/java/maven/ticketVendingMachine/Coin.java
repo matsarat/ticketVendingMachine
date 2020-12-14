@@ -27,7 +27,7 @@ public enum Coin {
         return symbol;
     }
 
-    public static List<String> getAllSymbols() {
+    public static List<String> getAllCoinSymbols() {
         List<String> allCoinSymbols = new ArrayList<>();
         for (Coin coin : Coin.values()) {
             allCoinSymbols.add(coin.getSymbol());
@@ -41,7 +41,7 @@ public enum Coin {
                 return coin;
             }
         }
-        throw new IllegalArgumentException(String.format("Invalid user input: %s. Valid input values: %s", userInput, getAllSymbols()));
+        throw new IllegalArgumentException(String.format("Invalid coin: %s. Valid coins: %s", userInput, getAllCoinSymbols()));
     }
 
 
