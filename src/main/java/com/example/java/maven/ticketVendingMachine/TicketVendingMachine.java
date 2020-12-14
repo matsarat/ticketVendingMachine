@@ -1,19 +1,25 @@
 package com.example.java.maven.ticketVendingMachine;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TicketVendingMachine {
     private final TicketPrinter ticketPrinter;
     private final TicketStorage ticketStorage;
+    private final CoinStorage coinStorage;
     private final MessagePrinter messagePrinter;
     private final UserInputProvider userInputProvider;
 
     public TicketVendingMachine(TicketPrinter ticketPrinter,
                                 TicketStorage ticketStorage,
+                                CoinStorage coinStorage,
                                 MessagePrinter messagePrinter,
                                 UserInputProvider userInputProvider) {
 
         this.ticketPrinter = ticketPrinter;
         this.ticketStorage = ticketStorage;
+        this.coinStorage = coinStorage;
         this.messagePrinter = messagePrinter;
         this.userInputProvider = userInputProvider;
 
@@ -39,5 +45,26 @@ public class TicketVendingMachine {
         }
     }
 
+    public void addCoinToTempCoinStorage() {
+        coinStorage.getTempCoinStorage().add(getCoin());
+    }
 
+    public void moveCoinsFromTempToMainCoinStorage() {
+        coinStorage.getMainCoinStorage().addAll(coinStorage.getTempCoinStorage());
+    }
+
+    public void giveBackOddMoney() {
+        List<Coin> oddMoneyToGiveBack = new ArrayList<>();
+        int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
+        int valueOfCoinsInTempStorage = CoinStorage.getValueOfCoinsInStorage(coinStorage.getTempCoinStorage());
+        int oddMoney = valueOfCoinsInTempStorage - ticketsPrice;
+
+
+    }
+
+    public void getPayment() {
+        while (ticketStorage.getValueOfTicketsInStorage() > CoinStorage.getValueOfCoinsInStorage(coinStorage.getTempCoinStorage())) {
+            addCoinToTempCoinStorage();
+        }
+    }
 }
