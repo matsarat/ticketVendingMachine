@@ -13,11 +13,11 @@ public class UserInputProvider {
         return scanner.nextLine();
     }
 
-    public Integer getCoins() {
+    public String getCoins() {
         messagePrinter.printMessage("" + '\n' +
                 "Insert coins:? ");
         Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+        return scanner.nextLine();
     }
 
 

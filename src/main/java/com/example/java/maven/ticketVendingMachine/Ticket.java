@@ -17,7 +17,7 @@ public enum Ticket {
         this.symbol = symbol;
     }
 
-    public float getValue() {
+    public int getValue() {
         return value;
     }
 
