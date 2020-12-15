@@ -19,7 +19,7 @@ public enum Coin {
         this.symbol = symbol;
     }
 
-    public float getValue() {
+    public int getValue() {
         return value;
     }
 
