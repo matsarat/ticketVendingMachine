@@ -46,15 +46,15 @@ public class TicketVendingMachine {
     }
 
     public void addCoinToTempCoinStorage() {
-        coinStorage.getTempCoinStorage().add(getCoin());
+        coinStorage.getTempCoinStorage().put(getCoin(), getCoin().getValue());
     }
 
     public void moveCoinsFromTempToMainCoinStorage() {
-        coinStorage.getMainCoinStorage().addAll(coinStorage.getTempCoinStorage());
+        coinStorage.getMainCoinStorage().putAll(coinStorage.getTempCoinStorage());
     }
 
     public void giveBackOddMoney() {
-        List<Coin> oddMoneyToGiveBack = new ArrayList<>();
+        List<Coin> oddCoinsToGiveBack = new ArrayList<>();
         int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
         int valueOfCoinsInTempStorage = CoinStorage.getValueOfCoinsInStorage(coinStorage.getTempCoinStorage());
         int oddMoney = valueOfCoinsInTempStorage - ticketsPrice;
