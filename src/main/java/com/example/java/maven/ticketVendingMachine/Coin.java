@@ -35,6 +35,14 @@ public enum Coin {
         return allCoinSymbols;
     }
 
+    public static List<Integer> getAllCoinValues() {
+        List<Integer> allCoinSymbols = new ArrayList<>();
+        for (Coin coin : Coin.values()) {
+            allCoinSymbols.add(coin.getValue());
+        }
+        return allCoinSymbols;
+    }
+
     public static Coin matchUserInput(String userInput) {
         for (Coin coin : Coin.values()) {
             if (coin.getSymbol().equalsIgnoreCase(userInput)) {
