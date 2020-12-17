@@ -54,18 +54,30 @@ public class TicketVendingMachine {
     }
 
     public void giveBackOddMoney() {
+        //reszta do wydania
         Map<Coin, Integer> oddCoinsToGiveBackStorage = new HashMap<>();
+
+        //cena wszystkich biletow zamowionych przez usera
         int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
+
+        //ilosc hajsu jaka czlowiek wrzucil do automatu
         int valueOfCoinsInTempStorage = CoinStorage.getValueOfCoinsInStorage(coinStorage.getTempCoinStorage());
+
+        //reszta do wydania
         int oddMoney = valueOfCoinsInTempStorage - ticketsPrice;
-        int valueOfCoinsToGiveBackStorage = 0;
-        while (valueOfCoinsToGiveBackStorage != oddMoney) {
+        while (oddMoney != 0) {
+            for (Coin coin : Coin.values()) {
+                int requiredNumberOfCoinsWithGivenValue = getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getValue());
+                if (coinStorage.hasNumberOfCoins(coin, requiredNumberOfCoinsWithGivenValue)){
+
+                }
+            }
             for (int value : Coin.getAllCoinValues()) {
                 int requiredNumberOfCoinsWithGivenValue = getRequiredNumberOfCoinsWithGivenValue(oddMoney, value);
                 if (requiredNumberOfCoinsWithGivenValue > 0) {
                     if (areRequiredCoinsAvailableInCoinStorage(requiredNumberOfCoinsWithGivenValue, value)) {
                         getCoinFromCoinStorageToGiveBack(requiredNumberOfCoinsWithGivenValue, value, oddCoinsToGiveBackStorage);
-                        valueOfCoinsToGiveBackStorage = getValueOfCoinsToGiveBackStorage(oddCoinsToGiveBackStorage);
+                        int valueOfCoinsToGiveBackStorage = getValueOfCoinsToGiveBackStorage(oddCoinsToGiveBackStorage);
                     }
                 }
             }
@@ -104,6 +116,7 @@ public class TicketVendingMachine {
         }
     }
 
+    //todo: wszystkie metody zwiazane ze storeage do storega
     public int getNumberOfCoinsWithGivenValueInMainCoinStorage(int coinValue) {
         int coinCounter = 0;
         for (Map.Entry<Coin, Integer> coinEntry : coinStorage.getMainCoinStorage().entrySet()) {

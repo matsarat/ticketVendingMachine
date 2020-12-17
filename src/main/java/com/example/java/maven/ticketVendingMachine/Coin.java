@@ -52,7 +52,11 @@ public enum Coin {
         throw new IllegalArgumentException(String.format("Invalid coin: %s. Valid coins: %s", userInput, getAllCoinSymbols()));
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "{" +
+                "value=" + value +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
 }

@@ -1,28 +1,30 @@
 package com.example.java.maven.ticketVendingMachine;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class TicketStorage {
-    private final List<Ticket> ticketStorage;
+    private final Map<Ticket, Integer> tickets = new HashMap<>();
 
-    public TicketStorage(List<Ticket> ticketStorage) {
-        this.ticketStorage = ticketStorage;
+    public Map<Ticket, Integer> getTickets() {
+        return new HashMap<>(tickets);
     }
 
-    public List<Ticket> getTicketStorage() {
-        return ticketStorage;
+    public void clear() {
+        tickets.clear();
     }
 
-    public void addTicketToStorage(Ticket ticket) {
-        ticketStorage.add(ticket);
+    public void addTicket(Ticket ticket) {
+        int currentNumberOfTickets = Optional.ofNullable(tickets.get(ticket)).orElse(0);
+        tickets.put(ticket, currentNumberOfTickets + 1);
     }
 
     public int getValueOfTicketsInStorage() {
         int valueOfTicketsInStorage = 0;
-        for (Ticket ticket : ticketStorage) {
-            valueOfTicketsInStorage += ticket.getValue();
+        for (Ticket ticket : tickets.keySet()) {
+            valueOfTicketsInStorage += (ticket.getValue() * tickets.get(ticket));
         }
         return valueOfTicketsInStorage;
     }
-    
 }

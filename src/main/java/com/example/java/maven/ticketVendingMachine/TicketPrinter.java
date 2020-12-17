@@ -1,5 +1,7 @@
 package com.example.java.maven.ticketVendingMachine;
 
+import java.util.Map;
+
 public class TicketPrinter {
     private int paperContainerState;
     private final static String PRINT_TICKETS = "Here are your tickets:";
@@ -24,7 +26,7 @@ public class TicketPrinter {
     }
 
     public boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
-        if (paperContainerState >= ticketStorage.getTicketStorage().size()) {
+        if (paperContainerState >= ticketStorage.getTickets().size()) {
             return true;
         }
         else return false;
@@ -32,9 +34,14 @@ public class TicketPrinter {
 
     public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
         messagePrinter.printMessage(PRINT_TICKETS);
-        for (Ticket ticket : ticketStorage.getTicketStorage()) {
-            messagePrinter.printMessage(ticket.toString());
-            paperContainerState -= 1;
+
+        for (Map.Entry<Ticket, Integer> entry: ticketStorage.getTickets().entrySet()){
+            int numberOfTickets = entry.getValue();
+            for (int i = 0; i < numberOfTickets; i ++){
+                messagePrinter.printMessage(entry.getKey().toString());
+            }
+            paperContainerState -= numberOfTickets;
         }
+
     }
 }
