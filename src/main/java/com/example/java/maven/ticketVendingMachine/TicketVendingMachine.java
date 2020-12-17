@@ -26,7 +26,7 @@ public class TicketVendingMachine {
     }
 
     public Coin getCoin() {
-        String userInput = userInputProvider.getCoins();
+        String userInput = userInputProvider.getString();
         try {
             return Coin.matchUserInput(userInput.toUpperCase());
         } catch (IllegalArgumentException exception) {
@@ -36,9 +36,9 @@ public class TicketVendingMachine {
     }
 
     public Ticket getTicket() {
-        String userInput = userInputProvider.getTypeOfTicket();
+        String chosenTicket = userInputProvider.getString();
         try {
-            return Ticket.matchUserInput(userInput.toUpperCase());
+            return Ticket.matchUserInput(chosenTicket.toUpperCase());
         } catch (IllegalArgumentException exception) {
             messagePrinter.printError(exception.getMessage());
             return getTicket();
