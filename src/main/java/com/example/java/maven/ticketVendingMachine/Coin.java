@@ -19,40 +19,41 @@ public enum Coin {
         this.symbol = symbol;
     }
 
-    public int getValue() {
+    public int getCoinValue() {
         return value;
     }
 
-    public String getSymbol() {
+    public String getCoinSymbol() {
         return symbol;
     }
 
     public static List<String> getAllCoinSymbols() {
         List<String> allCoinSymbols = new ArrayList<>();
         for (Coin coin : Coin.values()) {
-            allCoinSymbols.add(coin.getSymbol());
+            allCoinSymbols.add(coin.getCoinSymbol());
         }
         return allCoinSymbols;
     }
 
     public static List<Integer> getAllCoinValues() {
-        List<Integer> allCoinSymbols = new ArrayList<>();
+        List<Integer> allCoinValues = new ArrayList<>();
         for (Coin coin : Coin.values()) {
-            allCoinSymbols.add(coin.getValue());
+            allCoinValues.add(coin.getCoinValue());
         }
-        return allCoinSymbols;
+        return allCoinValues;
     }
 
     public static Coin matchUserInput(String userInput) {
         for (Coin coin : Coin.values()) {
-            if (coin.getSymbol().equalsIgnoreCase(userInput)) {
+            if (coin.getCoinSymbol().equalsIgnoreCase(userInput)) {
                 return coin;
             }
         }
         throw new IllegalArgumentException(String.format("Invalid coin: %s. Valid coins: %s", userInput, getAllCoinSymbols()));
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Coin " + symbol;
+    }
 }
