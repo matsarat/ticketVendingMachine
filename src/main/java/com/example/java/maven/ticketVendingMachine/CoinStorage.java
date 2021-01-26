@@ -33,10 +33,10 @@ public class CoinStorage {
         tempCoinStorage.clear();
     }
 
-    public static int getValueOfCoinsInStorage(Map<Coin, Integer> coinStorage) {
+    public static int getValueOfCoinsInStorage(CoinStorage coinStorage) {
         int valueOfCoinsInStorage = 0;
-        for (Coin coin : coinStorage.keySet()) {
-            valueOfCoinsInStorage += (coin.getCoinValue() * coinStorage.get(coin));
+        for (Coin coin : coinStorage.getCoins().keySet()) {
+            valueOfCoinsInStorage += (coin.getCoinValue() * coinStorage.getCoins().get(coin));
         }
         return valueOfCoinsInStorage;
     }
