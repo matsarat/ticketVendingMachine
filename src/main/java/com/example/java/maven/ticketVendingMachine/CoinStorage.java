@@ -40,4 +40,27 @@ public class CoinStorage {
         }
         return valueOfCoinsInStorage;
     }
+
+    public int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
+        return Math.floorDiv(oddMoney, coinValue);
+    }
+
+    public boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, int coinValue, CoinStorage mainCoinStorage) {
+        if (getNumberOfCoinsWithGivenValueInMainCoinStorage(coinValue, mainCoinStorage) >= requiredNumberOfCoins) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public int getNumberOfCoinsWithGivenValueInMainCoinStorage(int coinValue, CoinStorage mainCoinStorage) {
+        int numberOfCoins = 0;
+        for (Map.Entry<Coin, Integer> coinEntry : mainCoinStorage.getCoins().entrySet()) {
+            if (coinEntry.getKey().getCoinValue() == coinValue) {
+                numberOfCoins = coinEntry.getValue();
+            }
+        }
+        return numberOfCoins;
+    }
 }
