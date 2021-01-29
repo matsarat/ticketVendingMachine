@@ -41,11 +41,11 @@ public class CoinStorage {
         return valueOfCoinsInStorage;
     }
 
-    public int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
+    public static int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
         return Math.floorDiv(oddMoney, coinValue);
     }
 
-    public boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, int coinValue, CoinStorage mainCoinStorage) {
+    public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, int coinValue, CoinStorage mainCoinStorage) {
         if (getNumberOfCoinsWithGivenValueInMainCoinStorage(coinValue, mainCoinStorage) >= requiredNumberOfCoins) {
             return true;
         }
@@ -54,7 +54,7 @@ public class CoinStorage {
         }
     }
 
-    public int getNumberOfCoinsWithGivenValueInMainCoinStorage(int coinValue, CoinStorage mainCoinStorage) {
+    public static int getNumberOfCoinsWithGivenValueInMainCoinStorage(int coinValue, CoinStorage mainCoinStorage) {
         int numberOfCoins = 0;
         for (Map.Entry<Coin, Integer> coinEntry : mainCoinStorage.getCoins().entrySet()) {
             if (coinEntry.getKey().getCoinValue() == coinValue) {
@@ -62,5 +62,11 @@ public class CoinStorage {
             }
         }
         return numberOfCoins;
+    }
+
+    public static void moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(CoinStorage mainCoinStorage, CoinStorage oddMoneyStorage, int requiredNumberOfCoins, Coin coin) {
+        int currentNumberOfCoinsInMainCoinStorage = mainCoinStorage.getCoins().get(coin);
+        mainCoinStorage.getCoins().put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
+        oddMoneyStorage.getCoins().put(coin, requiredNumberOfCoins);
     }
 }
