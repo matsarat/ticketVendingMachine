@@ -2,6 +2,10 @@ package com.example.java.maven.ticketVendingMachine;
 
 
 public class TicketVendingMachine {
+    private final static String ASK_FOR_ANOTHER_TICKET = "Do you need another ticket? Insert Y for YES or N for NO.";
+    private final static String WRONG_ANSWER = "Wrong answer! Insert Y for YES or N for NO.";
+    private final static String ASK_FOR_TICKET = "Which ticket would you like to buy? Available tickets are: " + Ticket.getAllTicketSymbols();
+
     private final TicketPrinter ticketPrinter;
     private final TicketStorage ticketStorage;
     private final CoinStorage mainCoinStorage;
@@ -65,9 +69,33 @@ public class TicketVendingMachine {
         }
     }
 
-    public void getPayment() {
+    public void getPaymentFromUser() {
         while (ticketStorage.getValueOfTicketsInStorage() > CoinStorage.getValueOfCoinsInStorage(tempCoinStorage)) {
             tempCoinStorage.addCoin(getCoin());
+        }
+    }
+
+    public void getTicketsFromUser() {
+        messagePrinter.printMessage(ASK_FOR_TICKET);
+        ticketStorage.addTicket(getTicket());
+        while (askIfAnotherTicketNeeded()) {
+            messagePrinter.printMessage(ASK_FOR_TICKET);
+            ticketStorage.addTicket(getTicket());
+        }
+    }
+
+    public boolean askIfAnotherTicketNeeded() {
+        messagePrinter.printMessage(ASK_FOR_ANOTHER_TICKET);
+        String userAnswear = userInputProvider.getString();
+        if (userAnswear.equalsIgnoreCase("Y")) {
+            return true;
+        }
+        else if (userAnswear.equalsIgnoreCase("N")) {
+            return false;
+        }
+        else {
+            messagePrinter.printError(WRONG_ANSWER);
+            return askIfAnotherTicketNeeded();
         }
     }
 }
