@@ -5,6 +5,11 @@ public class TicketVendingMachine {
     private final static String ASK_FOR_ANOTHER_TICKET = "Do you need another ticket? Insert Y for YES or N for NO.";
     private final static String WRONG_ANSWER = "Wrong answer! Insert Y for YES or N for NO.";
     private final static String ASK_FOR_TICKET = "Which ticket would you like to buy? Available tickets are: " + Ticket.getAllTicketSymbols();
+    private final static String INSERT_COIN = "Insert coin. Accepted coins are: " + Coin.getAllCoinSymbols();
+    private final static String GIVE_ODD_MONEY = "Here is your change";
+    private final static String VALUE_OF_TICKETS = "Value of your tickets is: ";
+
+
 
     private final TicketPrinter ticketPrinter;
     private final TicketStorage ticketStorage;
@@ -29,7 +34,12 @@ public class TicketVendingMachine {
         this.oddMoneyStorage = oddMoneyStorage;
         this.messagePrinter = messagePrinter;
         this.userInputProvider = userInputProvider;
+    }
 
+    public void fillMainCoinStorage() {
+        for (Coin coin : Coin.values()) {
+            mainCoinStorage.getCoins().put(coin, 10);
+        }
     }
 
     public Coin getCoin() {
@@ -53,24 +63,28 @@ public class TicketVendingMachine {
     }
     public void giveBackOddMoney() {
         int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
-        int valueOfCoinsInTempStorage = CoinStorage.getValueOfCoinsInStorage(tempCoinStorage);
+        int valueOfCoinsInTempStorage = tempCoinStorage.getValueOfCoinsInStorage();
         int oddMoney = valueOfCoinsInTempStorage - ticketsPrice;
         int valueOfCoinsToGiveBackStorage = 0;
-        while (valueOfCoinsToGiveBackStorage != oddMoney) {
-            for (Coin coin : Coin.values()) {
+        for (Coin coin : Coin.values()) {
+            if (valueOfCoinsToGiveBackStorage != oddMoney) {
                 int requiredNumberOfGivenCoins = CoinStorage.getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getCoinValue());
                 if (requiredNumberOfGivenCoins > 0) {
                     if (CoinStorage.areRequiredCoinsAvailableInCoinStorage(requiredNumberOfGivenCoins, coin.getCoinValue(), mainCoinStorage)) {
                         CoinStorage.moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(mainCoinStorage, oddMoneyStorage, requiredNumberOfGivenCoins, coin);
-                        valueOfCoinsToGiveBackStorage = CoinStorage.getValueOfCoinsInStorage(oddMoneyStorage);
+                        valueOfCoinsToGiveBackStorage = oddMoneyStorage.getValueOfCoinsInStorage();
                     }
                 }
             }
         }
+        messagePrinter.printMessage(GIVE_ODD_MONEY);
+        oddMoneyStorage.giveCoinsBack(oddMoneyStorage);
     }
 
     public void getPaymentFromUser() {
-        while (ticketStorage.getValueOfTicketsInStorage() > CoinStorage.getValueOfCoinsInStorage(tempCoinStorage)) {
+        messagePrinter.printMessage(VALUE_OF_TICKETS + ticketStorage.showValueOfTicketsInPLN());
+        while (ticketStorage.getValueOfTicketsInStorage() > tempCoinStorage.getValueOfCoinsInStorage()) {
+            messagePrinter.printMessage(INSERT_COIN);
             tempCoinStorage.addCoin(getCoin());
         }
     }
@@ -86,11 +100,11 @@ public class TicketVendingMachine {
 
     public boolean askIfAnotherTicketNeeded() {
         messagePrinter.printMessage(ASK_FOR_ANOTHER_TICKET);
-        String userAnswear = userInputProvider.getString();
-        if (userAnswear.equalsIgnoreCase("Y")) {
+        String userAnswer = userInputProvider.getString();
+        if (userAnswer.equalsIgnoreCase("Y")) {
             return true;
         }
-        else if (userAnswear.equalsIgnoreCase("N")) {
+        else if (userAnswer.equalsIgnoreCase("N")) {
             return false;
         }
         else {
