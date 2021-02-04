@@ -5,9 +5,11 @@ import java.util.Optional;
 
 public class CoinStorage {
     private final Map<Coin, Integer> coins;
+    private final MessagePrinter messagePrinter;
 
-    public CoinStorage(Map<Coin, Integer> coins) {
+    public CoinStorage(Map<Coin, Integer> coins, MessagePrinter messagePrinter) {
         this.coins = coins;
+        this.messagePrinter = messagePrinter;
     }
 
     public Map<Coin, Integer> getCoins() {
@@ -33,10 +35,10 @@ public class CoinStorage {
         tempCoinStorage.clear();
     }
 
-    public static int getValueOfCoinsInStorage(CoinStorage coinStorage) {
+    public int getValueOfCoinsInStorage() {
         int valueOfCoinsInStorage = 0;
-        for (Coin coin : coinStorage.getCoins().keySet()) {
-            valueOfCoinsInStorage += (coin.getCoinValue() * coinStorage.getCoins().get(coin));
+        for (Coin coin : coins.keySet()) {
+            valueOfCoinsInStorage += (coin.getCoinValue() * coins.get(coin));
         }
         return valueOfCoinsInStorage;
     }
@@ -68,5 +70,16 @@ public class CoinStorage {
         int currentNumberOfCoinsInMainCoinStorage = mainCoinStorage.getCoins().get(coin);
         mainCoinStorage.getCoins().put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
         oddMoneyStorage.getCoins().put(coin, requiredNumberOfCoins);
+    }
+
+    public void giveCoinsBack(CoinStorage oddMoneyStorage) {
+        for (Map.Entry<Coin, Integer> coinEntry : oddMoneyStorage.getCoins().entrySet()) {
+            int numberOfCoinsToGiveBack = coinEntry.getValue();
+            while (numberOfCoinsToGiveBack > 0) {
+                messagePrinter.printMessage(coinEntry.getKey().toString());
+                numberOfCoinsToGiveBack -= 1;
+            }
+        }
+        oddMoneyStorage.clear();
     }
 }
