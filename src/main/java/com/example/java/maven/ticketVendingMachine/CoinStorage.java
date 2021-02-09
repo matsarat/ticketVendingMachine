@@ -26,11 +26,12 @@ public class CoinStorage {
     }
 
     public static void moveCoinsFromTempToMainCoinStorage(CoinStorage mainCoinStorage, CoinStorage tempCoinStorage) {
-        for (Map.Entry<Coin, Integer> coin : tempCoinStorage.getCoins().entrySet()) {
-            int numberOfCoinsInTempStorage = coin.getValue();
-            int numberOfCoinsInMainStorage = Optional.ofNullable(mainCoinStorage.getCoins().get(coin.getValue())).orElse(0);
-            mainCoinStorage.getCoins().put(coin.getKey(), numberOfCoinsInMainStorage + numberOfCoinsInTempStorage);
-
+        for (Coin coin : Coin.values()) {
+            if (tempCoinStorage.getCoins().keySet().contains(coin)) {
+                int numberOfGivenCoinsInTempStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), tempCoinStorage);
+                int numberOfGivenCoinsInMainStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), mainCoinStorage);
+                mainCoinStorage.getCoins().put(coin, numberOfGivenCoinsInMainStorage + numberOfGivenCoinsInTempStorage);
+            }
         }
         tempCoinStorage.clear();
     }
@@ -48,7 +49,7 @@ public class CoinStorage {
     }
 
     public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, int coinValue, CoinStorage mainCoinStorage) {
-        if (getNumberOfCoinsWithGivenValueInMainCoinStorage(coinValue, mainCoinStorage) >= requiredNumberOfCoins) {
+        if (getNumberOfCoinsWithGivenValueInGivenCoinStorage(coinValue, mainCoinStorage) >= requiredNumberOfCoins) {
             return true;
         }
         else {
@@ -56,9 +57,9 @@ public class CoinStorage {
         }
     }
 
-    public static int getNumberOfCoinsWithGivenValueInMainCoinStorage(int coinValue, CoinStorage mainCoinStorage) {
+    public static int getNumberOfCoinsWithGivenValueInGivenCoinStorage(int coinValue, CoinStorage givenCoinStorage) {
         int numberOfCoins = 0;
-        for (Map.Entry<Coin, Integer> coinEntry : mainCoinStorage.getCoins().entrySet()) {
+        for (Map.Entry<Coin, Integer> coinEntry : givenCoinStorage.getCoins().entrySet()) {
             if (coinEntry.getKey().getCoinValue() == coinValue) {
                 numberOfCoins = coinEntry.getValue();
             }
