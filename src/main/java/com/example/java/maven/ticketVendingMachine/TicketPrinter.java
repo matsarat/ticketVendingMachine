@@ -32,8 +32,7 @@ public class TicketPrinter {
         else return false;
     }
 
-    public static void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
-        MessagePrinter messagePrinter = new MessagePrinter();
+    public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
         messagePrinter.printMessage(PRINT_TICKETS);
         for (Map.Entry<Ticket, Integer> ticketEntry : ticketStorage.getTickets().entrySet()) {
             int numberOfTicketsToPrint = ticketEntry.getValue();
@@ -43,5 +42,6 @@ public class TicketPrinter {
                 numberOfTicketsToPrint -= 1;
             }
         }
+        ticketStorage.clear();
     }
 }
