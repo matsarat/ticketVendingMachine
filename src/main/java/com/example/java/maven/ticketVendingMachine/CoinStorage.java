@@ -27,10 +27,10 @@ public class CoinStorage {
 
     public static void moveCoinsFromTempToMainCoinStorage(CoinStorage mainCoinStorage, CoinStorage tempCoinStorage) {
         for (Coin coin : Coin.values()) {
-            if (tempCoinStorage.getCoins().keySet().contains(coin)) {
+            if (tempCoinStorage.coins.keySet().contains(coin)) {
                 int numberOfGivenCoinsInTempStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), tempCoinStorage);
                 int numberOfGivenCoinsInMainStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), mainCoinStorage);
-                mainCoinStorage.getCoins().put(coin, numberOfGivenCoinsInMainStorage + numberOfGivenCoinsInTempStorage);
+                mainCoinStorage.coins.put(coin, numberOfGivenCoinsInMainStorage + numberOfGivenCoinsInTempStorage);
             }
         }
         tempCoinStorage.clear();
@@ -59,7 +59,7 @@ public class CoinStorage {
 
     public static int getNumberOfCoinsWithGivenValueInGivenCoinStorage(int coinValue, CoinStorage givenCoinStorage) {
         int numberOfCoins = 0;
-        for (Map.Entry<Coin, Integer> coinEntry : givenCoinStorage.getCoins().entrySet()) {
+        for (Map.Entry<Coin, Integer> coinEntry : givenCoinStorage.coins.entrySet()) {
             if (coinEntry.getKey().getCoinValue() == coinValue) {
                 numberOfCoins = coinEntry.getValue();
             }
@@ -68,13 +68,13 @@ public class CoinStorage {
     }
 
     public static void moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(CoinStorage mainCoinStorage, CoinStorage oddMoneyStorage, int requiredNumberOfCoins, Coin coin) {
-        int currentNumberOfCoinsInMainCoinStorage = mainCoinStorage.getCoins().get(coin);
-        mainCoinStorage.getCoins().put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
-        oddMoneyStorage.getCoins().put(coin, requiredNumberOfCoins);
+        int currentNumberOfCoinsInMainCoinStorage = mainCoinStorage.coins.get(coin);
+        mainCoinStorage.coins.put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
+        oddMoneyStorage.coins.put(coin, requiredNumberOfCoins);
     }
 
     public void giveCoinsBack(CoinStorage oddMoneyStorage) {
-        for (Map.Entry<Coin, Integer> coinEntry : oddMoneyStorage.getCoins().entrySet()) {
+        for (Map.Entry<Coin, Integer> coinEntry : oddMoneyStorage.coins.entrySet()) {
             int numberOfCoinsToGiveBack = coinEntry.getValue();
             while (numberOfCoinsToGiveBack > 0) {
                 messagePrinter.printMessage(coinEntry.getKey().toString());
