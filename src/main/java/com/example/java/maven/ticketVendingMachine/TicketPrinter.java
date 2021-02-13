@@ -3,7 +3,7 @@ package com.example.java.maven.ticketVendingMachine;
 import java.util.Map;
 
 public class TicketPrinter {
-    private static int paperContainerState;
+    private int paperContainerState;
     private final static String PRINT_TICKETS = "Here are your tickets:";
     private final MessagePrinter messagePrinter;
 
@@ -12,11 +12,11 @@ public class TicketPrinter {
         this.messagePrinter = messagePrinter;
     }
 
-    public static int getPaperContainerState() {
+    public int getPaperContainerState() {
         return paperContainerState;
     }
 
-    public static boolean isPaperInPrinter() {
+    public boolean isPaperInPrinter() {
         if (paperContainerState > 0) {
             return true;
         }
@@ -25,7 +25,7 @@ public class TicketPrinter {
         }
     }
 
-    public static boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
+    public boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
         if (paperContainerState >= ticketStorage.getTickets().size()) {
             return true;
         }
