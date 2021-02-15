@@ -1,5 +1,6 @@
 package com.example.java.maven.ticketVendingMachine;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ public class CoinStorage {
     }
 
     public Map<Coin, Integer> getCoins() {
-        return coins;
+        return new HashMap<>(coins);
     }
 
     public void clear() {
@@ -25,15 +26,20 @@ public class CoinStorage {
         coins.put(coin, currentNumberOfCoins + 1);
     }
 
-    public static void moveCoinsFromTempToMainCoinStorage(CoinStorage mainCoinStorage, CoinStorage tempCoinStorage) {
+    public void fillCoinStorageWithGivenNumberOfCoinsForDenomination(int numberOfCoinsForDenomination) {
         for (Coin coin : Coin.values()) {
-            if (tempCoinStorage.coins.keySet().contains(coin)) {
-                int numberOfGivenCoinsInTempStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), tempCoinStorage);
-                int numberOfGivenCoinsInMainStorage = getNumberOfCoinsWithGivenValueInGivenCoinStorage(coin.getCoinValue(), mainCoinStorage);
-                mainCoinStorage.coins.put(coin, numberOfGivenCoinsInMainStorage + numberOfGivenCoinsInTempStorage);
+            for (int i = numberOfCoinsForDenomination; i > 0 ; i--) {
+                addCoin(coin);
             }
         }
-        tempCoinStorage.clear();
+    }
+    
+    public void moveCoinsTo(CoinStorage destinationStorage) {
+        for (Coin coin : coins.keySet()) {
+            int numberOfCoinsInDestinationStorage = destinationStorage.coins.getOrDefault(coin, 0);
+            destinationStorage.coins.put(coin, numberOfCoinsInDestinationStorage + (coins.get(coin)));
+        }
+        coins.clear();
     }
 
     public int getValueOfCoinsInStorage() {
@@ -48,23 +54,13 @@ public class CoinStorage {
         return Math.floorDiv(oddMoney, coinValue);
     }
 
-    public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, int coinValue, CoinStorage mainCoinStorage) {
-        if (getNumberOfCoinsWithGivenValueInGivenCoinStorage(coinValue, mainCoinStorage) >= requiredNumberOfCoins) {
+    public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, Coin coin, CoinStorage mainCoinStorage) {
+        if (mainCoinStorage.coins.get(coin) >= requiredNumberOfCoins) {
             return true;
         }
         else {
             return false;
         }
-    }
-
-    public static int getNumberOfCoinsWithGivenValueInGivenCoinStorage(int coinValue, CoinStorage givenCoinStorage) {
-        int numberOfCoins = 0;
-        for (Map.Entry<Coin, Integer> coinEntry : givenCoinStorage.coins.entrySet()) {
-            if (coinEntry.getKey().getCoinValue() == coinValue) {
-                numberOfCoins = coinEntry.getValue();
-            }
-        }
-        return numberOfCoins;
     }
 
     public static void moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(CoinStorage mainCoinStorage, CoinStorage oddMoneyStorage, int requiredNumberOfCoins, Coin coin) {
