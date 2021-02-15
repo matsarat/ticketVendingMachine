@@ -36,31 +36,7 @@ public class TicketVendingMachine {
         this.userInputProvider = userInputProvider;
     }
 
-    public void fillMainCoinStorage() {
-        for (Coin coin : Coin.values()) {
-            mainCoinStorage.getCoins().put(coin, 10);
-        }
-    }
 
-    public Coin getCoin() {
-        String userInput = userInputProvider.getString();
-        try {
-            return Coin.matchUserInput(userInput.toUpperCase());
-        } catch (IllegalArgumentException exception) {
-            messagePrinter.printError(exception.getMessage());
-            return getCoin();
-        }
-    }
-
-    public Ticket getTicket() {
-        String chosenTicket = userInputProvider.getString();
-        try {
-            return Ticket.matchUserInput(chosenTicket.toUpperCase());
-        } catch (IllegalArgumentException exception) {
-            messagePrinter.printError(exception.getMessage());
-            return getTicket();
-        }
-    }
     public void giveBackOddMoney() {
         int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
         int valueOfCoinsInTempStorage = tempCoinStorage.getValueOfCoinsInStorage();
@@ -70,7 +46,7 @@ public class TicketVendingMachine {
             if (valueOfCoinsToGiveBackStorage != oddMoney) {
                 int requiredNumberOfGivenCoins = CoinStorage.getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getCoinValue());
                 if (requiredNumberOfGivenCoins > 0) {
-                    if (CoinStorage.areRequiredCoinsAvailableInCoinStorage(requiredNumberOfGivenCoins, coin.getCoinValue(), mainCoinStorage)) {
+                    if (CoinStorage.areRequiredCoinsAvailableInCoinStorage(requiredNumberOfGivenCoins, coin, mainCoinStorage)) {
                         CoinStorage.moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(mainCoinStorage, oddMoneyStorage, requiredNumberOfGivenCoins, coin);
                         valueOfCoinsToGiveBackStorage = oddMoneyStorage.getValueOfCoinsInStorage();
                     }
@@ -85,16 +61,16 @@ public class TicketVendingMachine {
         messagePrinter.printMessage(VALUE_OF_TICKETS + ticketStorage.showValueOfTicketsInPLN());
         while (ticketStorage.getValueOfTicketsInStorage() > tempCoinStorage.getValueOfCoinsInStorage()) {
             messagePrinter.printMessage(INSERT_COIN);
-            tempCoinStorage.addCoin(getCoin());
+            tempCoinStorage.addCoin(userInputProvider.getCoin());
         }
     }
 
     public void getTicketsFromUser() {
         messagePrinter.printMessage(ASK_FOR_TICKET);
-        ticketStorage.addTicket(getTicket());
+        ticketStorage.addTicket(userInputProvider.getTicket());
         while (askIfAnotherTicketNeeded()) {
             messagePrinter.printMessage(ASK_FOR_TICKET);
-            ticketStorage.addTicket(getTicket());
+            ticketStorage.addTicket(userInputProvider.getTicket());
         }
     }
 
