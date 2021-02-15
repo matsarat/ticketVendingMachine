@@ -44,7 +44,7 @@ public class TicketVendingMachine {
         int valueOfCoinsToGiveBackStorage = 0;
         for (Coin coin : Coin.values()) {
             if (valueOfCoinsToGiveBackStorage != oddMoney) {
-                int requiredNumberOfGivenCoins = CoinStorage.getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getCoinValue());
+                int requiredNumberOfGivenCoins = getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getCoinValue());
                 if (requiredNumberOfGivenCoins > 0) {
                     if (CoinStorage.areRequiredCoinsAvailableInCoinStorage(requiredNumberOfGivenCoins, coin, mainCoinStorage)) {
                         CoinStorage.moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(mainCoinStorage, oddMoneyStorage, requiredNumberOfGivenCoins, coin);
@@ -87,5 +87,9 @@ public class TicketVendingMachine {
             messagePrinter.printError(WRONG_ANSWER);
             return askIfAnotherTicketNeeded();
         }
+    }
+
+    public int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
+        return Math.floorDiv(oddMoney, coinValue);
     }
 }

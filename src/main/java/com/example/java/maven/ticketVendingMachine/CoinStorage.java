@@ -33,7 +33,7 @@ public class CoinStorage {
             }
         }
     }
-    
+
     public void moveCoinsTo(CoinStorage destinationStorage) {
         for (Coin coin : coins.keySet()) {
             int numberOfCoinsInDestinationStorage = destinationStorage.coins.getOrDefault(coin, 0);
@@ -48,10 +48,6 @@ public class CoinStorage {
             valueOfCoinsInStorage += (coin.getCoinValue() * coins.get(coin));
         }
         return valueOfCoinsInStorage;
-    }
-
-    public static int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
-        return Math.floorDiv(oddMoney, coinValue);
     }
 
     public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, Coin coin, CoinStorage mainCoinStorage) {
