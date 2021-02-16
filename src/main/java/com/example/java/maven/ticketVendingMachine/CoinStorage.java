@@ -51,12 +51,7 @@ public class CoinStorage {
     }
 
     public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, Coin coin, CoinStorage mainCoinStorage) {
-        if (mainCoinStorage.coins.get(coin) >= requiredNumberOfCoins) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return mainCoinStorage.coins.get(coin) >= requiredNumberOfCoins;
     }
 
     public void moveRequiredNumberOfCoins(CoinStorage destinationStorage, int requiredNumberOfCoins, Coin coin) {
