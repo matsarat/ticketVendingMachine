@@ -34,7 +34,7 @@ public class CoinStorage {
         }
     }
 
-    public void moveCoinsTo(CoinStorage destinationStorage) {
+    public void moveAllCoinsTo(CoinStorage destinationStorage) {
         for (Coin coin : coins.keySet()) {
             int numberOfCoinsInDestinationStorage = destinationStorage.coins.getOrDefault(coin, 0);
             destinationStorage.coins.put(coin, numberOfCoinsInDestinationStorage + (coins.get(coin)));
@@ -59,20 +59,25 @@ public class CoinStorage {
         }
     }
 
-    public static void moveRequiredNumberOfCoinsFromMainStorageToOddMoneyStorage(CoinStorage mainCoinStorage, CoinStorage oddMoneyStorage, int requiredNumberOfCoins, Coin coin) {
-        int currentNumberOfCoinsInMainCoinStorage = mainCoinStorage.coins.get(coin);
-        mainCoinStorage.coins.put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
-        oddMoneyStorage.coins.put(coin, requiredNumberOfCoins);
+    public void moveRequiredNumberOfCoins(CoinStorage destinationStorage, int requiredNumberOfCoins, Coin coin) {
+        int currentNumberOfCoinsInMainCoinStorage = coins.getOrDefault(coin, 0);
+        if (currentNumberOfCoinsInMainCoinStorage > requiredNumberOfCoins) {
+            coins.put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
+            destinationStorage.coins.put(coin, requiredNumberOfCoins);
+        }
+        else if (currentNumberOfCoinsInMainCoinStorage <= requiredNumberOfCoins && currentNumberOfCoinsInMainCoinStorage > 0) {
+            destinationStorage.coins.put(coin, coins.remove(coin));
+        }
     }
 
-    public void giveCoinsBack(CoinStorage oddMoneyStorage) {
-        for (Map.Entry<Coin, Integer> coinEntry : oddMoneyStorage.coins.entrySet()) {
+    public void giveCoinsBack() {
+        for (Map.Entry<Coin, Integer> coinEntry : coins.entrySet()) {
             int numberOfCoinsToGiveBack = coinEntry.getValue();
             while (numberOfCoinsToGiveBack > 0) {
                 messagePrinter.printMessage(coinEntry.getKey().toString());
                 numberOfCoinsToGiveBack -= 1;
             }
         }
-        oddMoneyStorage.clear();
+        clear();
     }
 }
