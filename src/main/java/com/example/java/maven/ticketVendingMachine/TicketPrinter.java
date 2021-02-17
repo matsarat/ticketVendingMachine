@@ -17,19 +17,11 @@ public class TicketPrinter {
     }
 
     public boolean isPaperInPrinter() {
-        if (paperContainerState > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return paperContainerState > 0;
     }
 
     public boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
-        if (paperContainerState >= ticketStorage.getTickets().size()) {
-            return true;
-        }
-        else return false;
+        return paperContainerState >= ticketStorage.getTickets().size();
     }
 
     public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
