@@ -12,10 +12,7 @@ public class CoinStorage {
         this.coins = coins;
         this.messagePrinter = messagePrinter;
     }
-
-    public Map<Coin, Integer> getCoins() {
-        return new HashMap<>(coins);
-    }
+    
 
     public void clear() {
         coins.clear();
@@ -48,10 +45,6 @@ public class CoinStorage {
             valueOfCoinsInStorage += (coin.getCoinValue() * coins.get(coin));
         }
         return valueOfCoinsInStorage;
-    }
-
-    public static boolean areRequiredCoinsAvailableInCoinStorage(int requiredNumberOfCoins, Coin coin, CoinStorage mainCoinStorage) {
-        return mainCoinStorage.coins.get(coin) >= requiredNumberOfCoins;
     }
 
     public void moveRequiredNumberOfCoins(CoinStorage destinationStorage, int requiredNumberOfCoins, Coin coin) {
