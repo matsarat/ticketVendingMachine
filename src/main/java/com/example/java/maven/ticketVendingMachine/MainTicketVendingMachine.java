@@ -9,14 +9,13 @@ public class MainTicketVendingMachine {
         UserInputProvider userInputProvider = new UserInputProvider();
         TicketPrinter ticketPrinter = new TicketPrinter(100, messagePrinter);
         TicketStorage ticketStorage = new TicketStorage();
-        
+
         CoinStorage tempCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
         CoinStorage mainCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
         CoinStorage oddMoneyStorage = new CoinStorage(new HashMap<>(), messagePrinter);
 
 
         TicketVendingMachine ticketVendingMachine = new TicketVendingMachine(
-                ticketPrinter,
                 ticketStorage,
                 mainCoinStorage,
                 tempCoinStorage,
@@ -24,13 +23,15 @@ public class MainTicketVendingMachine {
                 messagePrinter,
                 userInputProvider);
 
-        ticketVendingMachine.fillMainCoinStorage();
+
+        mainCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(10);
         ticketVendingMachine.getTicketsFromUser();
         ticketStorage.getValueOfTicketsInStorage();
         ticketVendingMachine.getPaymentFromUser();
-        ticketVendingMachine.giveBackOddMoney();
-        CoinStorage.moveCoinsFromTempToMainCoinStorage(mainCoinStorage, tempCoinStorage);
+        while (!ticketVendingMachine.isOddMoneyGivenBackToUser()) {
+            ticketVendingMachine.getPaymentFromUser();
+        }
+        tempCoinStorage.moveAllCoinsTo(mainCoinStorage);
         ticketPrinter.printTicketsFromTicketStorage(ticketStorage);
-
     }
 }
