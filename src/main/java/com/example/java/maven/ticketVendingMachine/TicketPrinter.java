@@ -12,18 +12,6 @@ public class TicketPrinter {
         this.messagePrinter = messagePrinter;
     }
 
-    public int getPaperContainerState() {
-        return paperContainerState;
-    }
-
-    public boolean isPaperInPrinter() {
-        return paperContainerState > 0;
-    }
-
-    public boolean isTicketPrintingPossible(TicketStorage ticketStorage) {
-        return paperContainerState >= ticketStorage.getTickets().size();
-    }
-
     public void printTicketsFromTicketStorage(TicketStorage ticketStorage) {
         messagePrinter.printMessage(PRINT_TICKETS);
         for (Map.Entry<Ticket, Integer> ticketEntry : ticketStorage.getTickets().entrySet()) {
