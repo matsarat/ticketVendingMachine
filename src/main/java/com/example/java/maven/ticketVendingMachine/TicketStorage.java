@@ -29,7 +29,6 @@ public class TicketStorage {
     }
 
     public float showValueOfTicketsInPLN() {
-        float valueOfTicketsInPLN = ((getValueOfTicketsInStorage()) / 100);
-        return valueOfTicketsInPLN;
+        return (float) ((getValueOfTicketsInStorage()) / 100);
     }
 }
