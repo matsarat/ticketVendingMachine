@@ -7,11 +7,10 @@ public class TicketVendingMachine {
     private final static String ASK_FOR_TICKET = "Which ticket would you like to buy? Available tickets are: " + Ticket.getAllTicketSymbols();
     private final static String INSERT_COIN = "Insert coin. Accepted coins are: " + Coin.getAllCoinSymbols();
     private final static String GIVE_ODD_MONEY = "Here is your change";
+    private final static String GIVE_ODD_MONEY_BACK_NOT_POSSIBLE = "Impossible to give back odd money. Exact change is required. Here are your coins:";
     private final static String VALUE_OF_TICKETS = "Value of your tickets is: ";
 
 
-
-    private final TicketPrinter ticketPrinter;
     private final TicketStorage ticketStorage;
     private final CoinStorage mainCoinStorage;
     private final CoinStorage tempCoinStorage;
@@ -19,15 +18,13 @@ public class TicketVendingMachine {
     private final MessagePrinter messagePrinter;
     private final UserInputProvider userInputProvider;
 
-    public TicketVendingMachine(TicketPrinter ticketPrinter,
-                                TicketStorage ticketStorage,
+    public TicketVendingMachine(TicketStorage ticketStorage,
                                 CoinStorage mainCoinStorage,
                                 CoinStorage tempCoinStorage,
                                 CoinStorage oddMoneyStorage,
                                 MessagePrinter messagePrinter,
                                 UserInputProvider userInputProvider) {
 
-        this.ticketPrinter = ticketPrinter;
         this.ticketStorage = ticketStorage;
         this.mainCoinStorage = mainCoinStorage;
         this.tempCoinStorage = tempCoinStorage;
@@ -37,10 +34,28 @@ public class TicketVendingMachine {
     }
 
 
-    public void giveBackOddMoney() {
+    public boolean isOddMoneyGivenBackToUser() {
         int ticketsPrice = ticketStorage.getValueOfTicketsInStorage();
         int valueOfCoinsInTempStorage = tempCoinStorage.getValueOfCoinsInStorage();
         int oddMoney = valueOfCoinsInTempStorage - ticketsPrice;
+        prepareChangeToGiveBack(oddMoney);
+        if (oddMoney == 0) {
+            return true;
+        }
+        else if (prepareChangeToGiveBack(oddMoney) == oddMoney) {
+            messagePrinter.printMessage(GIVE_ODD_MONEY);
+            oddMoneyStorage.giveCoinsBack();
+            return true;
+        }
+        else {
+            messagePrinter.printMessage(GIVE_ODD_MONEY_BACK_NOT_POSSIBLE);
+            tempCoinStorage.giveCoinsBack();
+            oddMoneyStorage.moveAllCoinsTo(mainCoinStorage);
+            return false;
+        }
+    }
+
+    private int prepareChangeToGiveBack(int oddMoney) {
         int valueOfCoinsToGiveBackStorage = 0;
         for (Coin coin : Coin.values()) {
             if (valueOfCoinsToGiveBackStorage != oddMoney) {
@@ -51,8 +66,7 @@ public class TicketVendingMachine {
                 }
             }
         }
-        messagePrinter.printMessage(GIVE_ODD_MONEY);
-        oddMoneyStorage.giveCoinsBack();
+        return valueOfCoinsToGiveBackStorage;
     }
 
     public void getPaymentFromUser() {
