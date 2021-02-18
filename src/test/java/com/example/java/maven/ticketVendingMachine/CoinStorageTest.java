@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 
 import static org.mockito.BDDMockito.then;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -77,12 +78,9 @@ public class CoinStorageTest {
 
 //        then
         assertThat(primaryCoinStorage.getCoins().size()).isEqualTo(0);
-        then(messagePrinter).should(times(1)).printMessage("Coin 5 PLN");
-        then(messagePrinter).should(times(1)).printMessage("Coin 2 PLN");
-        then(messagePrinter).should(times(1)).printMessage("Coin 1 PLN");
-        then(messagePrinter).should(times(1)).printMessage("Coin 0,50 PLN");
-        then(messagePrinter).should(times(1)).printMessage("Coin 0,20 PLN");
-        then(messagePrinter).should(times(1)).printMessage("Coin 0,10 PLN");
 
+        for (String s : Arrays.asList("Coin 5 PLN", "Coin 2 PLN", "Coin 1 PLN", "Coin 0,50 PLN", "Coin 0,20 PLN", "Coin 0,10 PLN")) {
+            then(messagePrinter).should(times(1)).printMessage(s);
+        }
     }
 }
