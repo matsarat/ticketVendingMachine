@@ -26,6 +26,34 @@ public class TicketStorageTest {
 
 //        then
         assertThat(ticketStorage.getTickets().size()).isEqualTo(1);
+    }
 
+    @Test
+    void shouldGetValueOfTicketsInTicketStorage() {
+        Ticket ticket1 = Ticket.NORMAL_20;
+        Ticket ticket2 = Ticket.NORMAL_1_RIDE;
+
+//        when
+        ticketStorage.addTicket(ticket1);
+        ticketStorage.addTicket(ticket2);
+        ticketStorage.getValueOfTicketsInStorage();
+
+//        then
+        assertThat(ticketStorage.getValueOfTicketsInStorage()).isEqualTo(1000);
+        assertThat(ticketStorage.getTickets().size()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldShowValueOfTicketsInPLN() {
+        Ticket ticket1 = Ticket.NORMAL_20;
+        Ticket ticket2 = Ticket.NORMAL_1_RIDE;
+
+//        when
+        ticketStorage.addTicket(ticket1);
+        ticketStorage.addTicket(ticket2);
+        ticketStorage.getValueOfTicketsInStorage();
+
+//        then
+        assertThat(ticketStorage.showValueOfTicketsInPLN()).isEqualTo(10.0);
     }
 }
