@@ -3,22 +3,30 @@ package com.example.java.maven.ticketVendingMachine;
 import java.util.Scanner;
 
 public class UserInputProvider {
-
     MessagePrinter messagePrinter = new MessagePrinter();
 
-    public String getTypeOfTicket() {
-        messagePrinter.printMessage("" + '\n' +
-                "What kind of ticket would you like to buy? ");
+    public String getString() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
-    public Integer getCoins() {
-        messagePrinter.printMessage("" + '\n' +
-                "Insert coins:? ");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+    public Coin getCoin() {
+        String userInput = getString();
+        try {
+            return Coin.matchUserInput(userInput.toUpperCase());
+        } catch (IllegalArgumentException exception) {
+            messagePrinter.printError(exception.getMessage());
+            return getCoin();
+        }
     }
 
-
+    public Ticket getTicket() {
+        String chosenTicket = getString();
+        try {
+            return Ticket.matchUserInput(chosenTicket.toUpperCase());
+        } catch (IllegalArgumentException exception) {
+            messagePrinter.printError(exception.getMessage());
+            return getTicket();
+        }
+    }
 }
