@@ -1,6 +1,5 @@
 package com.example.java.maven.ticketVendingMachine;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,7 +11,7 @@ public class CoinStorage {
         this.coins = coins;
         this.messagePrinter = messagePrinter;
     }
-    
+
 
     public void clear() {
         coins.clear();
@@ -48,12 +47,12 @@ public class CoinStorage {
     }
 
     public void moveRequiredNumberOfCoins(CoinStorage destinationStorage, int requiredNumberOfCoins, Coin coin) {
-        int currentNumberOfCoinsInMainCoinStorage = coins.getOrDefault(coin, 0);
-        if (currentNumberOfCoinsInMainCoinStorage > requiredNumberOfCoins) {
-            coins.put(coin, currentNumberOfCoinsInMainCoinStorage - requiredNumberOfCoins);
+        int currentNumberOfCoinsInPrimaryCoinStorage = coins.getOrDefault(coin, 0);
+        if (currentNumberOfCoinsInPrimaryCoinStorage > requiredNumberOfCoins) {
+            coins.put(coin, currentNumberOfCoinsInPrimaryCoinStorage - requiredNumberOfCoins);
             destinationStorage.coins.put(coin, requiredNumberOfCoins);
         }
-        else if (currentNumberOfCoinsInMainCoinStorage <= requiredNumberOfCoins && currentNumberOfCoinsInMainCoinStorage > 0) {
+        else if (currentNumberOfCoinsInPrimaryCoinStorage > 0) {
             destinationStorage.coins.put(coin, coins.remove(coin));
         }
     }
