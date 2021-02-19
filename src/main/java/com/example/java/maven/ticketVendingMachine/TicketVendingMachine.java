@@ -55,7 +55,7 @@ public class TicketVendingMachine {
         }
     }
 
-    private int prepareChangeToGiveBack(int oddMoney) {
+    public int prepareChangeToGiveBack(int oddMoney) {
         int valueOfCoinsToGiveBackStorage = 0;
         for (Coin coin : Coin.values()) {
             if (valueOfCoinsToGiveBackStorage != oddMoney) {
