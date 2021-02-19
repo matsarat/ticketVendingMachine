@@ -99,7 +99,7 @@ public class TicketVendingMachineTest {
         given(tempCoinStorage.getValueOfCoinsInStorage())
                 .willReturn(2000);
         given(ticketVendingMachine.prepareChangeToGiveBack(1000))
-                .willReturn(800);
+                .willReturn(800).willReturn(900).willReturn(1500);
 
 //        when
         ticketVendingMachine.isOddMoneyGivenBackToUser();
@@ -116,5 +116,30 @@ public class TicketVendingMachineTest {
                 .moveAllCoinsTo(mainCoinStorage);
         assertThat(ticketVendingMachine.isOddMoneyGivenBackToUser())
                 .isFalse();
+    }
+
+
+    @Test
+    void shouldAskUserForCoinWhenValueOfTicketsIsBiggerThanValueOfCoinsInsertedByUser() {
+
+//        given
+        given(tempCoinStorage.getValueOfCoinsInStorage())
+                .willReturn(500).willReturn(600);
+        given(ticketStorage.getValueOfTicketsInStorage())
+                .willReturn(600);
+
+//        when
+        ticketVendingMachine.getPaymentFromUser();
+
+//        then
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(VALUE_OF_TICKETS + ticketStorage.showValueOfTicketsInPLN());
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(INSERT_COIN);
+        then(tempCoinStorage)
+                .should(times(1))
+                .addCoin(userInputProvider.getCoin());
     }
 }
