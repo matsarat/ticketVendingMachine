@@ -203,4 +203,44 @@ public class TicketVendingMachineTest {
         assertThat(ticketVendingMachine.askIfAnotherTicketNeeded())
                 .isTrue();
     }
+
+    @Test
+    void shouldAskForAnotherTicketIfUserNeedsOneMore() {
+
+//        given
+        given(userInputProvider.getString())
+                .willReturn("y")
+                .willReturn("n");
+
+//        when
+        ticketVendingMachine.getTicketsFromUser();
+
+//        then
+        then(messagePrinter)
+                .should(times(2))
+                .printMessage(ASK_FOR_TICKET);
+        then(ticketStorage)
+                .should(times(2))
+                .addTicket(userInputProvider.getTicket());
+
+    }
+
+    @Test
+    void shouldNotAskForAnotherTicketIfUserDoesNotNeedOneMore() {
+
+//        given
+        given(userInputProvider.getString())
+                .willReturn("n");
+
+//        when
+        ticketVendingMachine.getTicketsFromUser();
+
+//        then
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(ASK_FOR_TICKET);
+        then(ticketStorage)
+                .should(times(1))
+                .addTicket(userInputProvider.getTicket());
+    }
 }
