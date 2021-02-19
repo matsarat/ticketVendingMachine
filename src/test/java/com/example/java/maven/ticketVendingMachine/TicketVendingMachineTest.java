@@ -44,5 +44,77 @@ public class TicketVendingMachineTest {
 
     }
 
+    @Test
+    void shouldReturnTrueIfOddMoneyEqualsZero() {
 
+//        given
+        given(ticketStorage.getValueOfTicketsInStorage())
+                .willReturn(1000);
+        given(tempCoinStorage.getValueOfCoinsInStorage())
+                .willReturn(1000);
+
+//        when
+        ticketVendingMachine.isOddMoneyGivenBackToUser();
+
+//        then
+        assertThat(ticketVendingMachine.isOddMoneyGivenBackToUser())
+                .isTrue();
+    }
+
+    @Test
+    void shouldReturnTrueIfValueOfCoinsPreparedToGiveBackEqualsOddMoney() {
+
+//        given
+
+        given(ticketStorage.getValueOfTicketsInStorage())
+                .willReturn(1000);
+        given(tempCoinStorage.getValueOfCoinsInStorage())
+                .willReturn(2000);
+        given(ticketVendingMachine.prepareChangeToGiveBack(1000))
+                .willReturn(1000);
+
+
+//        when
+        ticketVendingMachine.isOddMoneyGivenBackToUser();
+
+//        then
+
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(GIVE_ODD_MONEY);
+        then(oddMoneyStorage)
+                .should(times(1))
+                .giveCoinsBack();
+        assertThat(ticketVendingMachine.isOddMoneyGivenBackToUser())
+                .isTrue();
+    }
+
+    @Test
+    void shouldReturnFalseIfOddMoneyNotEqualsZeroAndCoinsPreparedToGiveBackDoNotEqualOddMoney() {
+
+
+//        given
+        given(ticketStorage.getValueOfTicketsInStorage())
+                .willReturn(1000);
+        given(tempCoinStorage.getValueOfCoinsInStorage())
+                .willReturn(2000);
+        given(ticketVendingMachine.prepareChangeToGiveBack(1000))
+                .willReturn(800);
+
+//        when
+        ticketVendingMachine.isOddMoneyGivenBackToUser();
+
+//        then
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(GIVE_ODD_MONEY_BACK_NOT_POSSIBLE);
+        then(tempCoinStorage)
+                .should(times(1))
+                .giveCoinsBack();
+        then(oddMoneyStorage)
+                .should(times(1))
+                .moveAllCoinsTo(mainCoinStorage);
+        assertThat(ticketVendingMachine.isOddMoneyGivenBackToUser())
+                .isFalse();
+    }
 }
