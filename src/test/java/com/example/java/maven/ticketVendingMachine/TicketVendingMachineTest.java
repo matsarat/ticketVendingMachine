@@ -142,4 +142,65 @@ public class TicketVendingMachineTest {
                 .should(times(1))
                 .addCoin(userInputProvider.getCoin());
     }
+
+    @Test
+    void shouldReturnTrueIfUserInsertsValidAnswerConfirmingThatAnotherTicketIsNeeded() {
+
+//        given
+        given(userInputProvider.getString())
+                .willReturn("y");
+
+//        when
+        ticketVendingMachine.askIfAnotherTicketNeeded();
+
+
+//        then
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(ASK_FOR_ANOTHER_TICKET);
+        assertThat(ticketVendingMachine.askIfAnotherTicketNeeded())
+                .isTrue();
+    }
+
+    @Test
+    void shouldReturnFalseIfUserInsertsValidAnswerDenyingThatAnotherTicketIsNeeded() {
+
+//        given
+        given(userInputProvider.getString())
+                .willReturn("n");
+
+//        when
+        ticketVendingMachine.askIfAnotherTicketNeeded();
+
+
+//        then
+        then(messagePrinter)
+                .should(times(1))
+                .printMessage(ASK_FOR_ANOTHER_TICKET);
+        assertThat(ticketVendingMachine.askIfAnotherTicketNeeded())
+                .isFalse();
+    }
+
+    @Test
+    void shouldPrintErrorAndInvokeTheMethodItselfIfUserInsertsInvalidAnswer() {
+
+//        given
+        given(userInputProvider.getString())
+                .willReturn("Yes")
+                .willReturn("Y");
+
+//        when
+        ticketVendingMachine.askIfAnotherTicketNeeded();
+
+
+//        then
+        then(messagePrinter)
+                .should(times(2))
+                .printMessage(ASK_FOR_ANOTHER_TICKET);
+        then(messagePrinter)
+                .should(times(1))
+                .printError(WRONG_ANSWER);
+        assertThat(ticketVendingMachine.askIfAnotherTicketNeeded())
+                .isTrue();
+    }
 }
