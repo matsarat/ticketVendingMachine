@@ -99,7 +99,9 @@ public class TicketVendingMachineTest {
         given(tempCoinStorage.getValueOfCoinsInStorage())
                 .willReturn(2000);
         given(ticketVendingMachine.prepareChangeToGiveBack(1000))
-                .willReturn(800).willReturn(900).willReturn(1500);
+                .willReturn(800)
+                .willReturn(900)
+                .willReturn(1500);
 
 //        when
         ticketVendingMachine.isOddMoneyGivenBackToUser();
@@ -124,7 +126,9 @@ public class TicketVendingMachineTest {
 
 //        given
         given(tempCoinStorage.getValueOfCoinsInStorage())
-                .willReturn(500).willReturn(600);
+                .willReturn(500)
+                .willReturn(599)
+                .willReturn(600);
         given(ticketStorage.getValueOfTicketsInStorage())
                 .willReturn(600);
 
@@ -136,10 +140,10 @@ public class TicketVendingMachineTest {
                 .should(times(1))
                 .printMessage(VALUE_OF_TICKETS + ticketStorage.showValueOfTicketsInPLN());
         then(messagePrinter)
-                .should(times(1))
+                .should(times(2))
                 .printMessage(INSERT_COIN);
         then(tempCoinStorage)
-                .should(times(1))
+                .should(times(2))
                 .addCoin(userInputProvider.getCoin());
     }
 
