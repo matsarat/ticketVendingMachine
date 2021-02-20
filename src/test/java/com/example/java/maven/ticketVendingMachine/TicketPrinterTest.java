@@ -25,8 +25,6 @@ public class TicketPrinterTest {
     @Test
     void shouldPrintAllTicketsFromTicketStorage() {
 
-//        given
-
 //        when
         ticketPrinter.printTicketsFromTicketStorage(ticketStorage);
 
