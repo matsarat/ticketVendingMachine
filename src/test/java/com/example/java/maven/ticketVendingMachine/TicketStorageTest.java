@@ -44,6 +44,6 @@ public class TicketStorageTest {
         ticketStorage.getValueOfTicketsInStorage();
 
 //        then
-        assertThat(ticketStorage.showValueOfTicketsInPLN()).isEqualTo(10.0);
+        assertThat(ticketStorage.showValueOfTicketsInPLN()).isEqualTo(10.0f);
     }
 }
