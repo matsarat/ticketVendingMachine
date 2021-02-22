@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class TicketPrinterTest {
 
@@ -45,5 +47,7 @@ public class TicketPrinterTest {
         then(messagePrinter)
                 .should(times(1))
                 .printMessage("Ticket: HF1Ride with value of: 300");
+
+        assertThat(ticketStorage.getTickets().size()).isEqualTo(0);
     }
 }
