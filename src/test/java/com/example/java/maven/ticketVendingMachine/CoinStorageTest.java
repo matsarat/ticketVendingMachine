@@ -1,6 +1,5 @@
 package com.example.java.maven.ticketVendingMachine;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,13 +18,11 @@ public class CoinStorageTest {
     MessagePrinter messagePrinter = Mockito.mock(MessagePrinter.class);
 
     CoinStorage primaryCoinStorage;
-    CoinStorage destinationCoinStorage;
 
 
     @BeforeEach
-    void createCoinStorages() {
+    void createCoinStorage() {
         this.primaryCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
-        this.destinationCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
     }
 
 
@@ -56,6 +53,8 @@ public class CoinStorageTest {
 
     @Test
     void shouldMoveAllCoinsFromPrimaryToDestinationStorage() {
+
+        CoinStorage destinationCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
 
 //        given
         primaryCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(1);
