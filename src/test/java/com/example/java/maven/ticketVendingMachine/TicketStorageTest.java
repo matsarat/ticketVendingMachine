@@ -15,7 +15,9 @@ public class TicketStorageTest {
         ticketStorage.addTicket(ticket);
 
 //        then
+        assertThat(ticketStorage.getTickets().get(Ticket.NORMAL_20)).isEqualTo(1);
         assertThat(ticketStorage.getTickets().size()).isEqualTo(1);
+        assertThat(ticketStorage.getValueOfTicketsInStorage()).isEqualTo(400); //400 is expressed in groszs int value of "NORMAL_20" ticket
     }
 
     @Test
