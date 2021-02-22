@@ -26,11 +26,6 @@ public class TicketTest {
         String userInput3 = "hf1ride";
         String userInput4 = "n1ride";
 
-//        when
-        Ticket.matchUserInput(userInput1);
-        Ticket.matchUserInput(userInput2);
-        Ticket.matchUserInput(userInput3);
-        Ticket.matchUserInput(userInput4);
 
 //        then
         assertThat(Ticket.matchUserInput(userInput1))
