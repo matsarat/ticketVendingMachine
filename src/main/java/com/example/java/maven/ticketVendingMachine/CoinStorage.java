@@ -1,5 +1,6 @@
 package com.example.java.maven.ticketVendingMachine;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +13,9 @@ public class CoinStorage {
         this.messagePrinter = messagePrinter;
     }
 
+    public Map<Coin, Integer> getCoins() {
+        return new HashMap<>(coins);
+    }
 
     public void clear() {
         coins.clear();

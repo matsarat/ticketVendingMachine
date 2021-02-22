@@ -55,11 +55,11 @@ public class TicketVendingMachine {
         }
     }
 
-    private int prepareChangeToGiveBack(int oddMoney) {
+    int prepareChangeToGiveBack(int oddMoney) {
         int valueOfCoinsToGiveBackStorage = 0;
         for (Coin coin : Coin.values()) {
             if (valueOfCoinsToGiveBackStorage != oddMoney) {
-                int requiredNumberOfGivenCoins = getRequiredNumberOfCoinsWithGivenValue(oddMoney, coin.getCoinValue());
+                int requiredNumberOfGivenCoins = getRequiredNumberOfCoinsWithGivenValue((oddMoney - valueOfCoinsToGiveBackStorage), coin.getCoinValue());
                 if (requiredNumberOfGivenCoins > 0) {
                     mainCoinStorage.moveRequiredNumberOfCoins(oddMoneyStorage, requiredNumberOfGivenCoins, coin);
                     valueOfCoinsToGiveBackStorage = oddMoneyStorage.getValueOfCoinsInStorage();

@@ -7,7 +7,7 @@ public class MainTicketVendingMachine {
     public static void main(String[] args) {
         MessagePrinter messagePrinter = new MessagePrinter();
         UserInputProvider userInputProvider = new UserInputProvider();
-        TicketPrinter ticketPrinter = new TicketPrinter(100, messagePrinter);
+        TicketPrinter ticketPrinter = new TicketPrinter(messagePrinter);
         TicketStorage ticketStorage = new TicketStorage();
 
         CoinStorage tempCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);

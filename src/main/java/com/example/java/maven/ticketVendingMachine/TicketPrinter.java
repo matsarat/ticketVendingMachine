@@ -3,12 +3,10 @@ package com.example.java.maven.ticketVendingMachine;
 import java.util.Map;
 
 public class TicketPrinter {
-    private int paperContainerState;
     private final static String PRINT_TICKETS = "Here are your tickets:";
     private final MessagePrinter messagePrinter;
 
-    public TicketPrinter(int paperContainerState, MessagePrinter messagePrinter) {
-        this.paperContainerState = paperContainerState;
+    public TicketPrinter(MessagePrinter messagePrinter) {
         this.messagePrinter = messagePrinter;
     }
 
@@ -18,7 +16,6 @@ public class TicketPrinter {
             int numberOfTicketsToPrint = ticketEntry.getValue();
             while (numberOfTicketsToPrint>0) {
                 messagePrinter.printMessage(ticketEntry.getKey().toString());
-                paperContainerState -= 1;
                 numberOfTicketsToPrint -= 1;
             }
         }
