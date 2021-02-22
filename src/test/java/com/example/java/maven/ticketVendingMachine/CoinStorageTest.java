@@ -1,5 +1,6 @@
 package com.example.java.maven.ticketVendingMachine;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -36,7 +37,10 @@ public class CoinStorageTest {
         primaryCoinStorage.addCoin(coin);
 
 //        then
+        assertThat(primaryCoinStorage.getCoins().get(coin)).isEqualTo(1);
         assertThat(primaryCoinStorage.getCoins().size()).isEqualTo(1);
+        assertThat(primaryCoinStorage.getValueOfCoinsInStorage()).isEqualTo(100); // 100, because ONEZL coin is represented by int value expressed in groszs (1 PLN = 100 gr)
+
     }
 
     @Test
