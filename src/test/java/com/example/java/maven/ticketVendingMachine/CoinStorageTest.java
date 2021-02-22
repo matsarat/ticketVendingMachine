@@ -50,8 +50,8 @@ public class CoinStorageTest {
         primaryCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(1);
 
 //        then
-        assertThat(primaryCoinStorage.getCoins().size()).isEqualTo(6);
-        assertThat(primaryCoinStorage.getValueOfCoinsInStorage()).isEqualTo(880);
+        assertThat(primaryCoinStorage.getCoins().size()).isEqualTo(6); // 6, because we have 6 denominations and we expect one coin of a kind to be in storage
+        assertThat(primaryCoinStorage.getValueOfCoinsInStorage()).isEqualTo(880); // if we take one coin of a kind and sum up values, then it would be 880 groszs
     }
 
     @Test
