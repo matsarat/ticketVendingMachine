@@ -28,14 +28,7 @@ public class CoinTest {
         String userInput4 = "0,50 pln";
         String userInput5 = "0,20 pln";
         String userInput6 = "0,10 pln";
-
-//        when
-        Coin.matchUserInput(userInput1);
-        Coin.matchUserInput(userInput2);
-        Coin.matchUserInput(userInput3);
-        Coin.matchUserInput(userInput4);
-        Coin.matchUserInput(userInput5);
-        Coin.matchUserInput(userInput6);
+        
 
 //        then
         assertThat(Coin.matchUserInput(userInput1))
