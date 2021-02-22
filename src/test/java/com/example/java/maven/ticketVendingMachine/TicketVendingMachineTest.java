@@ -52,9 +52,7 @@ public class TicketVendingMachineTest {
                 .willReturn(1000);
         given(tempCoinStorage.getValueOfCoinsInStorage())
                 .willReturn(1000);
-
-//        when
-        ticketVendingMachine.isOddMoneyGivenBackToUser();
+        
 
 //        then
         assertThat(ticketVendingMachine.isOddMoneyGivenBackToUser())
