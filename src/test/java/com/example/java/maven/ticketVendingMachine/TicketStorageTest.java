@@ -11,6 +11,7 @@ public class TicketStorageTest {
     @Test
     void shouldAddTicket() {
         Ticket ticket = Ticket.NORMAL_20;
+
 //        when
         ticketStorage.addTicket(ticket);
 
@@ -25,13 +26,16 @@ public class TicketStorageTest {
         Ticket ticket1 = Ticket.NORMAL_20;
         Ticket ticket2 = Ticket.NORMAL_1_RIDE;
 
-//        when
+
+//        given
         ticketStorage.addTicket(ticket1);
         ticketStorage.addTicket(ticket2);
-        ticketStorage.getValueOfTicketsInStorage();
+
+//        when
+        int value = ticketStorage.getValueOfTicketsInStorage();
 
 //        then
-        assertThat(ticketStorage.getValueOfTicketsInStorage()).isEqualTo(1000);
+        assertThat(value).isEqualTo(1000); // 1000 is expected value, because when we take one ticket of a kind and sum up their values it will be 1000 groszs
         assertThat(ticketStorage.getTickets().size()).isEqualTo(2);
     }
 
@@ -40,10 +44,9 @@ public class TicketStorageTest {
         Ticket ticket1 = Ticket.NORMAL_20;
         Ticket ticket2 = Ticket.NORMAL_1_RIDE;
 
-//        when
+//        given
         ticketStorage.addTicket(ticket1);
         ticketStorage.addTicket(ticket2);
-        ticketStorage.getValueOfTicketsInStorage();
 
 //        then
         assertThat(ticketStorage.showValueOfTicketsInPLN()).isEqualTo(10.0f);
