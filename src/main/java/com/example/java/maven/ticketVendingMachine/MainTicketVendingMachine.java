@@ -26,7 +26,6 @@ public class MainTicketVendingMachine {
 
         mainCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(10);
         ticketVendingMachine.getTicketsFromUser();
-        ticketStorage.getValueOfTicketsInStorage();
         ticketVendingMachine.getPaymentFromUser();
         while (!ticketVendingMachine.isOddMoneyGivenBackToUser()) {
             ticketVendingMachine.getPaymentFromUser();

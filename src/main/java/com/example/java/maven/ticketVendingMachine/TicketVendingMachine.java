@@ -83,12 +83,15 @@ public class TicketVendingMachine {
     }
 
     public void getTicketsFromUser() {
+        addTicketToStorage();
+        while (askIfAnotherTicketNeeded()) {
+            addTicketToStorage();
+        }
+    }
+
+    private void addTicketToStorage() {
         messagePrinter.printMessage(ASK_FOR_TICKET);
         ticketStorage.addTicket(userInputProvider.getTicket());
-        while (askIfAnotherTicketNeeded()) {
-            messagePrinter.printMessage(ASK_FOR_TICKET);
-            ticketStorage.addTicket(userInputProvider.getTicket());
-        }
     }
 
     public boolean askIfAnotherTicketNeeded() {
