@@ -6,11 +6,9 @@ import java.util.Optional;
 
 public class CoinStorage {
     private final Map<Coin, Integer> coins;
-    private final MessagePrinter messagePrinter;
 
-    public CoinStorage(Map<Coin, Integer> coins, MessagePrinter messagePrinter) {
-        this.coins = coins;
-        this.messagePrinter = messagePrinter;
+    public CoinStorage(Map<Coin, Integer> coins) {
+        this.coins = new HashMap<>(coins);
     }
 
     public Map<Coin, Integer> getCoins() {
@@ -28,7 +26,7 @@ public class CoinStorage {
 
     public void fillCoinStorageWithGivenNumberOfCoinsForDenomination(int numberOfCoinsForDenomination) {
         for (Coin coin : Coin.values()) {
-            for (int i = numberOfCoinsForDenomination; i > 0 ; i--) {
+            for (int i = numberOfCoinsForDenomination; i > 0; i--) {
                 addCoin(coin);
             }
         }
@@ -55,20 +53,14 @@ public class CoinStorage {
         if (currentNumberOfCoinsInPrimaryCoinStorage > requiredNumberOfCoins) {
             coins.put(coin, currentNumberOfCoinsInPrimaryCoinStorage - requiredNumberOfCoins);
             destinationStorage.coins.put(coin, requiredNumberOfCoins);
-        }
-        else if (currentNumberOfCoinsInPrimaryCoinStorage > 0) {
+        } else if (currentNumberOfCoinsInPrimaryCoinStorage > 0) {
             destinationStorage.coins.put(coin, coins.remove(coin));
         }
     }
 
-    public void giveCoinsBack() {
-        for (Map.Entry<Coin, Integer> coinEntry : coins.entrySet()) {
-            int numberOfCoinsToGiveBack = coinEntry.getValue();
-            while (numberOfCoinsToGiveBack > 0) {
-                messagePrinter.printMessage(coinEntry.getKey().toString());
-                numberOfCoinsToGiveBack -= 1;
-            }
-        }
+    public Map<Coin, Integer> giveCoinsBack() {
+        Map<Coin, Integer> toReturn = getCoins();
         clear();
+        return toReturn;
     }
 }

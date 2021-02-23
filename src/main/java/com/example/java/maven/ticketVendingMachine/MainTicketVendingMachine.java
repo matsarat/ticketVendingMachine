@@ -10,9 +10,9 @@ public class MainTicketVendingMachine {
         TicketPrinter ticketPrinter = new TicketPrinter(messagePrinter);
         TicketStorage ticketStorage = new TicketStorage();
 
-        CoinStorage tempCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
-        CoinStorage mainCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
-        CoinStorage oddMoneyStorage = new CoinStorage(new HashMap<>(), messagePrinter);
+        CoinStorage tempCoinStorage = new CoinStorage(new HashMap<>());
+        CoinStorage mainCoinStorage = new CoinStorage(new HashMap<>());
+        CoinStorage oddMoneyStorage = new CoinStorage(new HashMap<>());
 
 
         TicketVendingMachine ticketVendingMachine = new TicketVendingMachine(
