@@ -2,27 +2,18 @@ package com.example.java.maven.ticketVendingMachine;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import static org.mockito.BDDMockito.then;
-
-import java.util.Arrays;
 import java.util.HashMap;
-
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
 
 
 public class CoinStorageTest {
-    MessagePrinter messagePrinter = Mockito.mock(MessagePrinter.class);
-
     CoinStorage primaryCoinStorage;
-
 
     @BeforeEach
     void createCoinStorage() {
-        this.primaryCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
+        this.primaryCoinStorage = new CoinStorage(new HashMap<>());
     }
 
 
@@ -54,7 +45,7 @@ public class CoinStorageTest {
     @Test
     void shouldMoveAllCoinsFromPrimaryToDestinationStorage() {
 
-        CoinStorage destinationCoinStorage = new CoinStorage(new HashMap<>(), messagePrinter);
+        CoinStorage destinationCoinStorage = new CoinStorage(new HashMap<>());
 
 //        given
         primaryCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(1);
@@ -72,18 +63,17 @@ public class CoinStorageTest {
 
     @Test
     void shouldGiveCoinsBackToUser() {
-
 //        given
         primaryCoinStorage.fillCoinStorageWithGivenNumberOfCoinsForDenomination(1);
 
 //        when
-        primaryCoinStorage.giveCoinsBack();
+        Map<Coin, Integer> coins =  primaryCoinStorage.giveCoinsBack();
 
 //        then
         assertThat(primaryCoinStorage.getCoins().size()).isEqualTo(0);
 
-        for (String s : Arrays.asList("Coin 5 PLN", "Coin 2 PLN", "Coin 1 PLN", "Coin 0,50 PLN", "Coin 0,20 PLN", "Coin 0,10 PLN")) {
-            then(messagePrinter).should(times(1)).printMessage(s);
+        for (Coin coin : Coin.values()) {
+            assertThat(coins.get(coin)).isEqualTo(1);
         }
     }
 }

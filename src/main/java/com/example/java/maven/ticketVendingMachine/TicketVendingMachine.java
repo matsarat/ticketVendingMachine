@@ -1,6 +1,9 @@
 package com.example.java.maven.ticketVendingMachine;
 
 
+import java.util.Map;
+import java.util.stream.IntStream;
+
 public class TicketVendingMachine {
     private final static String ASK_FOR_ANOTHER_TICKET = "Do you need another ticket? Insert Y for YES or N for NO.";
     private final static String WRONG_ANSWER = "Wrong answer! Insert Y for YES or N for NO.";
@@ -44,12 +47,14 @@ public class TicketVendingMachine {
         }
         else if (prepareChangeToGiveBack(oddMoney) == oddMoney) {
             messagePrinter.printMessage(GIVE_ODD_MONEY);
-            oddMoneyStorage.giveCoinsBack();
+            Map<Coin, Integer> coinsToReturn = oddMoneyStorage.giveCoinsBack();
+            printCoins(coinsToReturn);  //TODO test it
             return true;
         }
         else {
             messagePrinter.printMessage(GIVE_ODD_MONEY_BACK_NOT_POSSIBLE);
-            tempCoinStorage.giveCoinsBack();
+            Map<Coin, Integer> coinsToReturn = tempCoinStorage.giveCoinsBack();
+            printCoins(coinsToReturn); //TODO test it
             oddMoneyStorage.moveAllCoinsTo(mainCoinStorage);
             return false;
         }
@@ -78,12 +83,15 @@ public class TicketVendingMachine {
     }
 
     public void getTicketsFromUser() {
+        addTicketToStorage();
+        while (askIfAnotherTicketNeeded()) {
+            addTicketToStorage();
+        }
+    }
+
+    private void addTicketToStorage() {
         messagePrinter.printMessage(ASK_FOR_TICKET);
         ticketStorage.addTicket(userInputProvider.getTicket());
-        while (askIfAnotherTicketNeeded()) {
-            messagePrinter.printMessage(ASK_FOR_TICKET);
-            ticketStorage.addTicket(userInputProvider.getTicket());
-        }
     }
 
     public boolean askIfAnotherTicketNeeded() {
@@ -103,5 +111,10 @@ public class TicketVendingMachine {
 
     public int getRequiredNumberOfCoinsWithGivenValue(int oddMoney, int coinValue) {
         return Math.floorDiv(oddMoney, coinValue);
+    }
+
+    private void printCoins(Map<Coin, Integer> coins){
+        coins.forEach((key, value) -> IntStream.range(0, value)
+                .forEach(i -> messagePrinter.printMessage(key.toString())));
     }
 }
